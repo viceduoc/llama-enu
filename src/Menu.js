@@ -3,7 +3,7 @@ import Product from './Product';
 
 function Menu({ menuData, selectedCategory }) {
   const filteredMenu = selectedCategory
-    ? menuData.filter((item) => item.idCategoria === selectedCategory)
+    ? menuData.filter((item) => item.NombreCategoria === selectedCategory)
     : menuData;
 
   return (
