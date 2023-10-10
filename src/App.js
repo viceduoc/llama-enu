@@ -8,6 +8,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true); // Estado para la carga
+  const [restaurantName, setRestaurantName] = useState("");
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -20,23 +21,27 @@ function App() {
         setMenuData(data.menuData);
         setCategories(data.categories);
         setLoading(data.loading); // Actualiza el estado de carga
+
+        if (data.menuData.length > 0) {
+          setRestaurantName(data.menuData[0].NombreSucursal);
+        }
       });
   }, []);
 
   return (
     <div className="container my-4 text-center">
-      <h1 className="my-5">Nombre del Restaurante</h1>
-      {loading ? ( // Muestra una indicación de carga si loading es verdadero
-        <h5 className= "gold">Cargando...</h5>
-      ) : (
-        <>
-          <div className="my-5"> 
-            <Categories categories={categories} onCategoryClick={handleCategoryClick} />
-          </div>
-          <Menu menuData={menuData} selectedCategory={selectedCategory} />
-        </>
-      )}
-    </div>
+    <h1 className="my-5">{restaurantName}</h1> {/* Mostramos el nombre del restaurante */}
+    {loading ? (
+      <h5 className= "gold">Cargando...</h5>
+    ) : (
+      <>
+        <div className="my-5"> 
+          <Categories categories={categories} onCategoryClick={handleCategoryClick} />
+        </div>
+        <Menu menuData={menuData} selectedCategory={selectedCategory} />
+      </>
+    )}
+  </div>
   );
 }
 
