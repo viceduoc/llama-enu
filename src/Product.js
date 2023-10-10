@@ -5,11 +5,11 @@ function Product({ product }) {
     <div className="card mb-3 border border-white" style={{ maxWidth: '540px' }}>
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={product.ProductoUrl} className="img-fluid   rounded-circle photo" alt={product.Nombre} />
+          <img src={product.ProductoUrl} className="img-fluid   rounded-circle photo" alt={product.NombreProducto} />
         </div>
         <div className="col-md-8">
           <div className="card-body">
-            <h5 className="card-title">{product.Nombre}</h5>
+            <h5 className="card-title">{product.NombreProducto}</h5>
             <p className="card-text d-none d-md-block">
               {product.Descripcion}            </p>
             <p className="card-text"><small className="text-body-secondary">${product.Precio}</small></p>
