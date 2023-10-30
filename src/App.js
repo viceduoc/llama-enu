@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Menu from './Menu';
 import Categories from './Categories';
 import { fetchMenuData } from './services/api';
+import { Link } from 'react-router-dom';
 
 function App() {
   const [menuData, setMenuData] = useState([]);
@@ -30,18 +31,23 @@ function App() {
 
   return (
     <div className="container my-4 text-center">
-    <h1 className="my-5">{restaurantName}</h1> {/* Mostramos el nombre del restaurante */}
-    {loading ? (
-      <h5 className= "gold">Cargando...</h5>
-    ) : (
-      <>
-        <div className="my-5"> 
-          <Categories categories={categories} onCategoryClick={handleCategoryClick} />
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <Link to="/" className="btn btn-primary"><i className="fa fa-home"></i></Link>
         </div>
-        <Menu menuData={menuData} selectedCategory={selectedCategory} />
-      </>
-    )}
-  </div>
+      </div>
+      <h1 className="my-5">{restaurantName}</h1> {/* Mostramos el nombre del restaurante */}
+      {loading ? (
+        <h5 className="text-warning">Cargando...</h5>
+      ) : (
+        <>
+          <div className="my-5">
+            <Categories categories={categories} onCategoryClick={handleCategoryClick} />
+          </div>
+          <Menu menuData={menuData} selectedCategory={selectedCategory} />
+        </>
+      )}
+    </div>
   );
 }
 
