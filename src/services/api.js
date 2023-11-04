@@ -14,3 +14,31 @@ export async function fetchMenuData() {
   }
 }
 
+const API_BASE_URL = 'https://llama-jykl.onrender.com/api/restaurant/transaccion';
+
+export const postTransaction = (idSucursal, mesaUUID) => {
+  return axios.post(`${API_BASE_URL}/transacc`, {
+    mesaUID: mesaUUID,
+    idSucursal: idSucursal,
+  });
+};
+
+
+export const getTransactionStatus = (idTransaccion) => {
+  return axios.post(`${API_BASE_URL}/transacc/estados`, {
+    id: idTransaccion,
+  });
+};
+
+export const getTransactionById = (idTransaccion) => {
+  return axios.get(`${API_BASE_URL}/transacc/${idTransaccion}`);
+};
+
+export const updateTransaction = (id, resuelto, asistencia, pideCuenta) => {
+  return axios.put(`${API_BASE_URL}/transacc`, {
+    id,
+    resuelto,
+    asistencia,
+    pideCuenta
+  });
+};
