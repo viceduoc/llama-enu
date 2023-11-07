@@ -14,6 +14,7 @@ export async function fetchMenuData() {
   }
 }
 
+//const API_BASE_URL = 'http://localhost:8081/api/restaurant/transaccion';
 const API_BASE_URL = 'https://llama-jykl.onrender.com/api/restaurant/transaccion';
 
 export const postTransaction = (idSucursal, mesaUUID) => {
@@ -40,5 +41,13 @@ export const updateTransaction = (id, resuelto, asistencia, pideCuenta) => {
     resuelto,
     asistencia,
     pideCuenta
+  });
+};
+
+export const calificarTransaction = (idTransaccion, calificacion, comentario) => {
+  return axios.put(`${API_BASE_URL}/transacc/calificar`, {
+    idTransaccion : idTransaccion,
+    calificacion : calificacion,
+    comentario : comentario
   });
 };
