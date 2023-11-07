@@ -66,10 +66,11 @@ const Gracias = () => {
       <br></br>
       <br></br>
       <br></br>
+      
       {!submissionComplete && (
         <Row className="justify-content-md-center">
         {transaction && !submissionComplete && (
-          <Card className="mb-6 shadow" style={{ width: '50%' }}>
+          <Card className="mb-4 shadow" >
             <Card.Body className="justify-content-center">
               <Card.Title>¿Qué te pareció la atención?</Card.Title>
               <Card.Subtitle>Por favor, califícanos y déjanos un comentario. Tu opinión es importante para mejorar nuestro servicio.</Card.Subtitle>
@@ -99,7 +100,7 @@ const Gracias = () => {
                   onChange={handleCommentChange}
                   maxLength={500}
                 />
-                <Form.Label>Escribenos tu comentario (500 caracteres máximo)</Form.Label>
+                <Form.Label>Comentarios</Form.Label>
               </Form.Group>
               <Button variant="success" size="lg" onClick={handleSubmit} disabled={rating === 0 || isSubmitting}>
                 {isSubmitting ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : <FaPaperPlane />}
@@ -112,7 +113,7 @@ const Gracias = () => {
         )}
         {submissionComplete && (
           <Row className="justify-content-md-center">
-          <Card className="mb-6 shadow" style={{ width: '50%' }}>
+          <Card className="mb-4 shadow">
             <Card.Body className="justify-content-center">
               <Card.Title><FaPaperPlane/> Calificación enviada.</Card.Title>
             </Card.Body>
