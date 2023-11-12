@@ -43,6 +43,7 @@ const Gracias = () => {
       .then(response => {
         console.log('Rating submitted:', response);
         setSubmissionComplete(true);
+        localStorage.removeItem('idTransaccion');
       })
       .catch(error => {
         console.error('Error submitting rating:', error);

@@ -51,3 +51,11 @@ export const calificarTransaction = (idTransaccion, calificacion, comentario) =>
     comentario : comentario
   });
 };
+
+
+
+export const fetchSucursalData = async () => {
+  const response = await axios.get('https://llama-jykl.onrender.com/api/restaurant/sucursal/sucursales');
+  console.log(response);
+  return response.data.data[0];
+};

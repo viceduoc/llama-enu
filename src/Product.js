@@ -13,10 +13,10 @@ function Product({ product }) {
         <div className="col-md-8">
           <div className="card-body">
             <h5 className="card-title">
-              {isDestacado && <FaStar className="text-warning" />} {/* Conditionally render the star */}
+              {isDestacado && <FaStar className="text-warning" />} 
               {product.NombreProducto}
             </h5>
-            <p className="card-text d-none d-md-block">
+            <p className="card-text">
               {product.Descripcion}
             </p>
             <p className="card-text"><small className="text-body-secondary">${product.Precio}</small></p>

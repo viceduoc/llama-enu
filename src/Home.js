@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate  } from 'react-router-dom';
-import { postTransaction, getTransactionStatus, getTransactionById, updateTransaction    } from '././services/api'; // Import the function
-import { Spinner, Container } from 'react-bootstrap';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { postTransaction, getTransactionStatus, getTransactionById, updateTransaction, fetchSucursalData } from '././services/api';
+import { Spinner, Container, Card, Row, Col, Button } from 'react-bootstrap';
+import { MdMenuBook, MdReceipt, MdHelpOutline, MdLocationOn, MdAccessTime } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa';
+import './styles/MainContent.css';
 
 function Home() {
   const { idSucursal, mesaUUID } = useParams();
@@ -10,12 +13,23 @@ function Home() {
   const [isAsistenciaLoading, setIsAsistenciaLoading] = useState(false);
   const [isCuentaLoading, setIsCuentaLoading] = useState(false);
   const navigate = useNavigate();
+  const [sucursalData, setSucursalData] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
     const savedIdTransaccion = localStorage.getItem('idTransaccion');
 
+    fetchSucursalData()
+      .then(data => {
+        setSucursalData(data);
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     const fetchTransaction = (id) => {
+
       getTransactionById(id)
         .then(response => {
           const transaccion = response.data.data;
@@ -146,7 +160,7 @@ function Home() {
         });
     }
   };
-  
+
   useEffect(() => {
     if (transaction && transaction.resuelto === 1) {
       navigate('/gracias');
@@ -168,7 +182,7 @@ function Home() {
               console.error('Error:', error);
               setIsCuentaLoading(false);
             });
-            
+
         })
         .catch(error => {
           console.error('Error:', error);
@@ -178,38 +192,73 @@ function Home() {
         });
     }
   };
-  
-  
-  
-if (isLoading) {
+
+
+
+  if (isLoading) {
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-            <Spinner animation="border" variant="primary" />
-        </Container>
+      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <Spinner animation="border" variant="primary" />
+      </Container>
     );
-}
+  }
 
 
-return (
-  <div className="container text-center mt-5">
-    <h1 className="display-4">Bienvenido a {transaction?.sucursal || ''}</h1>
-    <p className="lead">Explora nuestro restaurante y menú.</p>
-    {transaction?.username && (
-      <p className="text-info">Estás siendo atendido por {transaction?.username}</p>
-    )}
-    <div className="d-flex flex-column align-items-center">
-      <Link to="/app" className="btn btn-primary m-2" style={{ width: '200px' }}>Ver Carta</Link>
-      <button className="btn btn-success m-2" disabled={transaction?.pideCuenta === 1 || isCuentaLoading} onClick={handlePedirCuenta} style={{ width: '200px' }}>
-        {isCuentaLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : ""}  Pedir Cuenta
-      </button>
-      <button className="btn btn-danger m-2" disabled={transaction?.asistencia === 1 || isAsistenciaLoading} onClick={handlePedirAsistencia} style={{ width: '200px' }}>
-        {isAsistenciaLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : ""} Pedir Asistencia
-      </button>
-    </div>
-  </div>
-);
+  return (
+    <Container className="text-center mt-5">
+      <Row className="justify-content-md-center">
+        <Col md={12}>
+          <div className="decor-top-right"></div>
+          <div className="decor-top-left"></div>
+          <h1 className="display-4">Bienvenido a {sucursalData?.Sucursal || ''}</h1>
+          <p><MdLocationOn /> {sucursalData.Direccion}</p>
+          <p><MdAccessTime /> {sucursalData.Horario}</p>
+        </Col>
+      </Row>
 
-  
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <Card className="mb-3 shadow">
+            <Card.Header>
+
+              <p className="lead">Explora nuestro restaurante y menú.</p>
+
+              {/* <p >Mesa {transaction?.idMesa}</p> */}
+              {transaction?.username && (<p><FaUser /> Estás siendo atendido por {transaction?.username}</p>)}
+            </Card.Header>
+            <Card.Body>
+              <div className="d-flex flex-column align-items-center">
+                <Link to="/app" className="btn btn-primary m-2" style={{ width: '200px' }}><MdMenuBook /> Ver Carta</Link>
+                <Button variant="success" className="m-2" disabled={transaction?.pideCuenta === 1 || isCuentaLoading} onClick={handlePedirCuenta} style={{ width: '200px' }}>
+                  {isCuentaLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : ""}<MdReceipt />  Pedir Cuenta
+                </Button>
+                <Button variant="danger" className="m-2" disabled={transaction?.asistencia === 1 || isAsistenciaLoading} onClick={handlePedirAsistencia} style={{ width: '200px' }}>
+                  {isAsistenciaLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : ""} <MdHelpOutline /> Pedir Asistencia
+                </Button>
+                {(transaction?.pideCuenta === 1 || transaction?.asistencia === 1) && (
+                  <div className="mt-3">
+                    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                    <span className="ml-2"> Tu mesero ha sido notificado, por favor espere<span className="dot-container"><span className="dot-animation"></span></span></span>
+                  </div>
+                )}
+
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row className="justify-content-md-center">
+        <Col md={12}>
+          <div className="decor-bottom-right"></div>
+          <div className="decor-bottom-left"></div>
+        </Col>
+      </Row>
+    </Container>
+  );
+
+
+
 }
 
 export default Home;

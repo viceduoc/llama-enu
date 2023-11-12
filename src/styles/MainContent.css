@@ -1,0 +1,105 @@
+/* MainContent.css */
+.main-content {
+    margin-left: 250px; 
+    transition: margin-left 0.3s; 
+}
+
+.main-content.collapsed {
+    margin-left: 50px; 
+}
+.content {
+    flex-grow: 1;
+    transition: margin-left 0.3s;
+}
+.content.collapsed {
+    margin-left: 60px;
+}
+.content.notcollapsed {
+    margin-left: 220px; 
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 30px;
+  }
+  
+ 
+  .content:before,
+  .content:after,
+  .decor-top-right,
+  .decor-bottom-left,
+  .decor-top-left,
+  .decor-bottom-right {
+    content: '';
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100px; 
+    height: 100px; 
+    background-image: url('../assets/decoracion.png'); 
+    z-index: -1; 
+  }
+  
+  .content:before {
+    top: 0;
+    left: 0;
+    transform: rotate(270deg);
+  }
+  
+  .content:after {
+    bottom: 0;
+    right: 0;
+    transform: rotate(90deg);
+  }
+
+  .decor-top-right  {
+    top: 0;
+    left: 0;
+    transform: rotate(270deg);
+  }
+  
+  .decor-bottom-left {
+    bottom: 0;
+    right: 0;
+    transform: rotate(90deg);
+  }
+  
+  .decor-top-left {
+    top: 0;
+    right: 0;
+    transform: rotate(0deg);
+  }
+  
+  .decor-bottom-right {
+    bottom: 0;
+    left: 0;
+    transform: rotate(180deg);
+  }
+  
+  .dot-container {
+    display: inline-block;
+    width: 20px; /* Adjust the width as needed */
+    text-align: left;
+  }
+  
+  @keyframes dot {
+    0%, 20% {
+      content: '';
+    }
+    40% {
+      content: '.';
+    }
+    60% {
+      content: '..';
+    }
+    80%, 100% {
+      content: '...';
+    }
+  }
+  
+  .dot-animation::after {
+    animation: dot 1.5s infinite;
+    content: '';
+  }
+  
