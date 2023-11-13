@@ -61,7 +61,7 @@ function Home() {
                       .catch(error => {
                         console.error('Error:', error);
                       });
-                  }, 15000);
+                  }, 5000);
                   return () => clearInterval(intervalId);
                 })
                 .catch(error => {
@@ -125,7 +125,7 @@ function Home() {
               .catch(error => {
                 console.error('Error:', error);
               });
-          }, 15000);
+          }, 5000);
           return () => clearInterval(intervalId);
         })
         .catch(error => {
