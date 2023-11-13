@@ -20,20 +20,29 @@ function App() {
 
   useEffect(() => {
     const idTransaccion = localStorage.getItem('idTransaccion');
-    setShowGoBack(!!idTransaccion); 
+    setShowGoBack(!!idTransaccion);
 
+    const fetchData = () => {
+      fetchMenuData()
+        .then((data) => {
+          setMenuData(data.menuData);
+          setCategories(data.categories);
+          setLoading(data.loading);
+          if (data.menuData.length > 0) {
+            setRestaurantName(data.menuData[0].NombreSucursal);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching menu data:', error);
+        });
+    };
 
-    // Llama a la función fetchMenuData desde api.js
-    fetchMenuData()
-      .then((data) => {
-        setMenuData(data.menuData);
-        setCategories(data.categories);
-        setLoading(data.loading); // Actualiza el estado de carga
-        console.log(data.menuData); 
-        if (data.menuData.length > 0) {
-          setRestaurantName(data.menuData[0].NombreSucursal);
-        }
-      });
+    // Fetch data immediately and then set up the interval
+    fetchData();
+    const intervalId = setInterval(fetchData, 60000); // Fetch data every 1 minute
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
